@@ -30,4 +30,4 @@ This repo facilitates the creation of Slack notifications for Google Cloud servi
 
 \*\*\* Optional but highly recommended: [Set your pubsub push subscription to use authentication](https://cloud.google.com/pubsub/docs/push#setting_up_for_push_authentication) and set your Cloud Run service to only allow authenticated invocations.
 
-12. Run your service. Either push to your Github repo to trigger the service or use googleCloudRunner to serve it.
+12. Run your service. Either push to your Github repo to trigger the service or use googleCloudRunner to build and deploy it.
