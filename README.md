@@ -26,7 +26,7 @@ This repo facilitates the creation of Slack notifications for Google Cloud servi
 
 10. [Create a pubsub topic](https://cloud.google.com/pubsub/docs/quickstart-console) named "cloud-builds".
 
-11. [Create a pubsub push subscription to that topic](https://cloud.google.com/pubsub/docs/admin#creating_subscriptions) for that topic which posts to {your Cloud Run service url}/cloudbuild2slack. 
+11. [Create a pubsub push subscription to that topic](https://cloud.google.com/pubsub/docs/admin#creating_subscriptions) which posts to {your Cloud Run service url}/cloudbuild2slack. 
 
 \*\*\* Optional but highly recommended: [Set your pubsub push subscription to use authentication](https://cloud.google.com/pubsub/docs/push#setting_up_for_push_authentication) and set your Cloud Run service to only allow authenticated invocations.
 
