@@ -9,7 +9,6 @@ if(gargle:::detect_gce()){
   
   # Must give default compute engine user secret accessor privileges for this to work.
   Sys.setenv(gcp_project_number = gargle:::gce_metadata_request('project/numeric-project-id') %>% httr::content() %>% rawToChar())
-  preloadSecret(secret = 'pubsub_json', jsonNamesToEnvVars = F, credentialsDirectory = '.creds', project_number = Sys.getenv('gcp_project_number'))
   preloadSecret(secret = 'slack_buildchannel_webhook', project_number = Sys.getenv('gcp_project_number'))
   
 }else{
@@ -18,7 +17,6 @@ if(gargle:::detect_gce()){
 }
 
 assertthat::assert_that(Sys.getenv('gcp_project_number') != '', msg = 'Must set gcp_project_number environment variable.')
-assertthat::assert_that(file.exists('.creds/pubsub.json'), msg = 'Must create Google Secret named pubsub_json from uploaded pubsub service credentials json!')
 assertthat::assert_that(Sys.getenv('slack_buildchannel_webhook') != '', msg = 'Must set slack_buildchannel_webhook in Google Secret Manager!')
 
 # Swagger docs at ...s/__swagger__/ (needs trailing slash!)

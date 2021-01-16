@@ -4,3 +4,4 @@
 .Ruserdata
 *.DS*
 *.creds*
+.Rproj.user
