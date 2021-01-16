@@ -16,10 +16,10 @@ preloadSecret <- function(secret, jsonNamesToEnvVars = F, credentialsDirectory =
   
   res <- gargle::request_make(req)
   
+  print(endpt)
   print(token)
-  
+  print(glue::glue('Token Validated: {token$validate()}'))
   print(res)
-  
   print(httr::content(res))
   
   secret_val <- httr::content(res)$payload$data %>% base64enc::base64decode() %>% rawToChar()
