@@ -23,7 +23,7 @@ To set this up you will need to have a Google Cloud project set up, enable speci
 
 - Create a Cloud Run Service based on this repo. You have options.
     - [Build via Github triggers in console (easier but fewer options)](https://towardsdatascience.com/r-powered-services-that-are-simple-scalabale-and-secure-4c454c159e48)
-    - [Build via googleCloudRunner R package (tougher set up but far more capabilities)](https://code.markedmondson.me/googleCloudRunner/index.html)  \
+    - [Build via googleCloudRunner R package (tougher set up but far more capabilities)](https://code.markedmondson.me/googleCloudRunner/index.html)  
     
 - Create or select a pre-existing service account for this app with the role of "run.invoker".
 
