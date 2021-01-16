@@ -6,7 +6,7 @@ preloadSecret <- function(secret, jsonNamesToEnvVars = F, credentialsDirectory =
   if(!dir.exists(credentialsDirectory)) dir.create(credentialsDirectory)
   
   # Either grabs local credentials file for local testing or default service account credentials from cloud build.
-  token <- gargle::token_fetch(scopes = 'https://www.googleapis.com/auth.c/cloud-platform', path = glue::glue('{credentialsDirectory}/secrets.json'))
+  token <- gargle::token_fetch(scopes = 'https://www.googleapis.com/auth/cloud-platform', path = glue::glue('{credentialsDirectory}/secrets.json'))
   
   print(glue::glue('Loading secret {secret}'))
   
