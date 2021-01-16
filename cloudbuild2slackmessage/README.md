@@ -1,4 +1,4 @@
-# Cloud Build 2 Slack
+# cloudbuild2slackmessage
 
 This app provides default GCP build messages as text to a Slack channel.
 
