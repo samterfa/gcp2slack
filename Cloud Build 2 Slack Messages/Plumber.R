@@ -22,16 +22,11 @@ assertthat::assert_that(Sys.getenv('slack_buildchannel_webhook') != '', msg = 'M
 # Swagger docs at ...s/__swagger__/ (needs trailing slash!)
 if(Sys.getenv('PORT') == '') Sys.setenv(PORT = 8000)
 
-#' @apiTitle GCP Notifications to Slack
+#' @apiTitle GCP Notifications to Slack Message
 #' @apiDescription These endpoints facilitate GCP notifications to Slack.
-
-#* Cloud Build Notifications to Slack
-#* 1) Create a pubsub topic named "cloud-builds".
-#* 2) Create a subscription to that topic which posts to this endpoint.
-#* 3) (Optional but recommended): Enable authentication in the pubsub subscription and this Cloud Run service.
 #* @param req The request
 #* @param res The response
-#* @post /cloudbuild2slack
+#* @post /cloudbuild2slackmessage
 #* @serializer text
 function(req, res, ...){
   

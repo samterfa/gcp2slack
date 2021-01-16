@@ -29,10 +29,11 @@ To set this up you will need to have a Google Cloud project set up, enable speci
 
 - [Create a pubsub topic](https://cloud.google.com/pubsub/docs/quickstart-console) named "cloud-builds".
 
-- [Create a pubsub push subscription to that topic](https://cloud.google.com/pubsub/docs/admin#creating_subscriptions) which posts to {your Cloud Run service url}/cloudbuild2slack. 
+- [Create a pubsub push subscription to that topic](https://cloud.google.com/pubsub/docs/admin#creating_subscriptions) which posts to {your Cloud Run service url}/cloudbuild2slackmessage. 
 
 - [Click the "Enable Authentication" checkbox](https://cloud.google.com/pubsub/docs/push#setting_up_for_push_authentication) and select the service account with "run.invoker" permissions you set up previously as the associated service account.
 
 - Run your service. Either push to your Github repo to trigger the service to build and deploy or use googleCloudRunner to build and deploy it.
 
-The next time you run a Cloud Build operation, Google automatically sends build step summaries to the cloud-builds pubsub topic. These are automatically pushed to your cloudbuild2slack service which then relays the messages to your designated Slack channel!
+### Results
+The next time you run a Cloud Build operation for this project, Google will automatically send build step summaries to your cloud-builds pubsub topic. These are automatically pushed to your cloudbuild2slackmessage service which then relays the messages to your designated Slack channel!
