@@ -16,6 +16,8 @@ preloadSecret <- function(secret, jsonNamesToEnvVars = F, credentialsDirectory =
   
   res <- gargle::request_make(req)
   
+  print(token)
+  
   print(res)
   
   print(httr::content(res))
