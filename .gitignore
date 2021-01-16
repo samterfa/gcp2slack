@@ -5,3 +5,5 @@
 *.DS*
 *.creds*
 .Rproj.user
+*.html
+.R*
