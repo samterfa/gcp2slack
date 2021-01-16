@@ -19,6 +19,7 @@ preloadSecret <- function(secret, jsonNamesToEnvVars = F, credentialsDirectory =
   
   print(endpt)
   print(token)
+  print(gargle::token_email(token))
   print(glue::glue('Token Validated: {token$validate()}'))
   print(res)
   print(httr::content(res))
