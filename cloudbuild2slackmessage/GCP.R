@@ -18,6 +18,8 @@ preloadSecret <- function(secret, jsonNamesToEnvVars = F, credentialsDirectory =
   
   print(res)
   
+  print(httr::content(res))
+  
   secret_val <- httr::content(res)$payload$data %>% base64enc::base64decode() %>% rawToChar()
   
   # By convention, a secret named MySecret_json translates into file MySecret.json.
