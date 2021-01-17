@@ -10,19 +10,12 @@ preloadSecret <- function(secret, jsonNamesToEnvVars = F, credentialsDirectory =
   
   print(glue::glue('Loading secret {secret}'))
   
-#  endpt <- glue::glue('v1/projects/{project_number}/secrets/{secret}/versions/latest:access')
-  endpt <- glue::glue('v1beta1/projects/{project_number}/secrets/{secret}/versions/latest:access')
+  endpt <- glue::glue('v1/projects/{project_number}/secrets/{secret}/versions/latest:access')
+#  endpt <- glue::glue('v1beta1/projects/{project_number}/secrets/{secret}/versions/latest:access')
   
   req <- gargle::request_build(method = 'GET', path = endpt, base_url = 'https://secretmanager.googleapis.com/', token = token)
   
   res <- gargle::request_make(req)
-  
-  print(endpt)
-  print(token)
-  print(gargle::token_email(token))
-  print(glue::glue('Token Validated: {token$validate()}'))
-  print(res)
-  print(httr::content(res))
   
   secret_val <- httr::content(res)$payload$data %>% base64enc::base64decode() %>% rawToChar()
   
