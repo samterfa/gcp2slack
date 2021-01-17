@@ -1,14 +1,12 @@
 
-preloadSecret <- function(secret, jsonNamesToEnvVars = F, credentialsDirectory = '.creds', project_number = Sys.getenv('gcp_project_number')){
+preloadSecret <- function(secret, jsonNamesToEnvVars = F, localCredentialsJSON = '.creds/cloudbuild2slackmessage.json', project_number = Sys.getenv('gcp_project_number')){
   
   require(dplyr)
   
-  if(!dir.exists(credentialsDirectory)) dir.create(credentialsDirectory)
-  
-  # Either grabs local credentials file for local testing or default service account credentials from cloud build.
-  token <- gargle::token_fetch(scopes = 'https://www.googleapis.com/auth/cloud-platform', path = glue::glue('{credentialsDirectory}/secrets.json'))
-  
   print(glue::glue('Loading secret {secret}'))
+  
+  # Either grabs local credentials file for local testing or acting service account credentials.
+  token <- gargle::token_fetch(scopes = 'https://www.googleapis.com/auth/cloud-platform', path = localCredentialsJSON)
   
   endpt <- glue::glue('v1/projects/{project_number}/secrets/{secret}/versions/latest:access')
   
@@ -16,7 +14,11 @@ preloadSecret <- function(secret, jsonNamesToEnvVars = F, credentialsDirectory =
   
   res <- gargle::request_make(req)
   
-  secret_val <- httr::content(res)$payload$data %>% base64enc::base64decode() %>% rawToChar()
+  if(res$status_code < 300){
+    secret_val <- httr::content(res)$payload$data %>% base64enc::base64decode() %>% rawToChar()
+  }else{
+    stop(httr::content(res))
+  }
   
   # By convention, a secret named MySecret_json translates into file MySecret.json.
   if(grepl('_json', secret)){

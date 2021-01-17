@@ -6,6 +6,8 @@ if(gargle:::detect_gce()){
   
   require(dplyr)
   source('GCP.R')
+  # For debugging gargle issues.
+  options(gargle_quiet = F)
   
   # Must give default compute engine user secret accessor privileges for this to work.
   Sys.setenv(gcp_project_number = gargle:::gce_metadata_request('project/numeric-project-id') %>% httr::content() %>% rawToChar())
