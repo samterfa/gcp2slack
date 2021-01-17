@@ -22,19 +22,17 @@ To set this up you will need to have a Google Cloud project set up, enable speci
 
 -   [Create a secret](https://cloud.google.com/secret-manager/docs/creating-and-accessing-secrets#secretmanager-create-secret-web) named slack\_buildchannel\_webhook and set its value to your Slack webhook url. To limit your app service account's permissions, you can use a [conditional role binding](https://cloud.google.com/iam/docs/managing-conditional-role-bindings) to only allow it to access this specific secret.
 
--   Create a Cloud Run Service based on this repo. You have options that are listed below. **No matter what, make sure you change the acting service account for your service to the one you just created.**
-
-    -   [![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run?dir=cloudbuild2slackmessage)
-    -   [Build via Github triggers in console (easier but fewer options)](https://towardsdatascience.com/r-powered-services-that-are-simple-scalabale-and-secure-4c454c159e48)
-    -   [Build via googleCloudRunner R package (tougher set up but far more capabilities)](https://code.markedmondson.me/googleCloudRunner/index.html)
-
 -   [Create a pubsub topic](https://cloud.google.com/pubsub/docs/quickstart-console) named "cloud-builds".
 
 -   [Create a pubsub push subscription to that topic](https://cloud.google.com/pubsub/docs/admin#creating_subscriptions) which posts to {your Cloud Run service url}/cloudbuild2slackmessage.
 
 -   [Click the "Enable Authentication" checkbox](https://cloud.google.com/pubsub/docs/push#setting_up_for_push_authentication) and select the same app service account you set up previously as the associated service account.
 
--   Run your service. Either push to your Github repo to trigger the service to build and deploy or use googleCloudRunner to build and deploy it.
+-   Create a Cloud Run Service based on this repo. You have options that are listed below. **No matter what, make sure you change the acting service account for your service to the one you just created.**
+
+    -   [![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run?dir=cloudbuild2slackmessage)
+    -   [Build via Github triggers in console (easier but fewer options)](https://towardsdatascience.com/r-powered-services-that-are-simple-scalabale-and-secure-4c454c159e48)
+    -   [Build via googleCloudRunner R package (tougher set up but far more capabilities)](https://code.markedmondson.me/googleCloudRunner/index.html)
 
 ### Results
 
