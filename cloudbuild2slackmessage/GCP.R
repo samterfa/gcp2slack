@@ -9,9 +9,11 @@ preloadSecret <- function(secret, jsonNamesToEnvVars = F, localCredentialsJSON =
   if(file.exists(localCredentialsJSON)){
     token <- gargle::credentials_service_account(scopes = 'https://www.googleapis.com/auth/cloud-platform', path = localCredentialsJSON)
   }else{
-    token <- gargle::credentials_gce(scopes = 'https://www.googleapis.com/auth/pubsub', service_account = 'default')
+    token <- gargle::credentials_gce(scopes = c('https://www.googleapis.com/auth/cloud-platform', 
+                                                'https://www.googleapis.com/auth/pubsub'))
   }
   
+  print(token)
   print(gargle::token_email(token))
   
   req <- gargle::request_build(method = 'GET', path = 'v1/projects/{project_number}/topics', base_url = 'https://pubsub.googleapis.com', token = token)
