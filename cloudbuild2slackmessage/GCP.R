@@ -6,7 +6,13 @@ preloadSecret <- function(secret, jsonNamesToEnvVars = F, localCredentialsJSON =
   print(glue::glue('Loading secret {secret}'))
   
   # Either grabs local credentials file for local testing or acting service account credentials.
-  token <- gargle::token_fetch(scopes = 'https://www.googleapis.com/auth/cloud-platform', path = localCredentialsJSON)
+  if(file.exists(localCredentialsJSON)){
+    token <- gargle::credentials_service_account(scopes = 'https://www.googleapis.com/auth/cloud-platform', path = localCredentialsJSON)
+  }else{
+    token <- gargle::credentials_gce(scopes = 'https://www.googleapis.com/auth/cloud-platform', service_account = 'testing')
+  }
+  
+  print(gargle::token_email(token))
   
   endpt <- glue::glue('v1/projects/{project_number}/secrets/{secret}/versions/latest:access')
   
