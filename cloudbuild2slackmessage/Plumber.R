@@ -4,8 +4,6 @@ if(gargle:::detect_gce()){
   
   print('Loading project information from GCE.')
   
-  print(gargle:::list_service_accounts())
-  
   require(dplyr)
   source('GCP.R')
   # For debugging gargle issues.

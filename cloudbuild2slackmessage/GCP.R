@@ -9,7 +9,7 @@ preloadSecret <- function(secret, jsonNamesToEnvVars = F, localCredentialsJSON =
   if(file.exists(localCredentialsJSON)){
     token <- gargle::credentials_service_account(scopes = 'https://www.googleapis.com/auth/cloud-platform', path = localCredentialsJSON)
   }else{
-    token <- gargle::credentials_gce(scopes = 'https://www.googleapis.com/auth/cloud-platform', service_account = 'testing')
+    token <- gargle::credentials_gce(scopes = 'https://www.googleapis.com/auth/cloud-platform', service_account = 'default')
   }
   
   print(gargle::token_email(token))
