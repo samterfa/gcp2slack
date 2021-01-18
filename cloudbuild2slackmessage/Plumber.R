@@ -34,6 +34,14 @@ credentials_gce2 <- function(scopes = "https://www.googleapis.com/auth/cloud-pla
 # Grab project number from Google Compute Engine metadata.  See https://cloud.google.com/compute/docs/storing-retrieving-metadata for details.
 if(gargle:::detect_gce()){
   
+  require(dplyr)
+  source('GCP.R')
+  # For debugging gargle issues.
+  options(gargle_quiet = F)
+  
+  # Must give default compute engine user secret accessor privileges for this to work.
+  Sys.setenv(gcp_project_number = gargle:::gce_metadata_request('project/numeric-project-id') %>% httr::content() %>% rawToChar())
+  
   print('Loading project information from GCE.')
   
   token <- credentials_gce2(scopes = c('https://www.googleapis.com/auth/pubsub'), service_account = 'default')
@@ -49,13 +57,6 @@ if(gargle:::detect_gce()){
   print(res)
   print(httr::content(res))
   
-  require(dplyr)
-  source('GCP.R')
-  # For debugging gargle issues.
-  options(gargle_quiet = F)
-  
-  # Must give default compute engine user secret accessor privileges for this to work.
-  Sys.setenv(gcp_project_number = gargle:::gce_metadata_request('project/numeric-project-id') %>% httr::content() %>% rawToChar())
   preloadSecret(secret = 'slack_buildchannel_webhook', project_number = Sys.getenv('gcp_project_number'))
   
 }else{
