@@ -1,8 +1,53 @@
 
+# Fix for gargle preventing other Google Cloud scopes for use in credentials_gce.
+credentials_gce2 <- function(scopes = "https://www.googleapis.com/auth/cloud-platform",
+                             service_account = "default", ...) {
+  ui_line("trying credentials_gce()")
+  if (!gargle:::detect_gce() || is.null(scopes)) {
+    return(NULL)
+  }
+  
+  gce_token <- gargle:::fetch_access_token(scopes, service_account = service_account)
+  
+  params <- list(
+    as_header = TRUE,
+    scope = scopes,
+    service_account = service_account
+  )
+  token <- gargle:::GceToken$new(
+    credentials = gce_token$access_token,
+    params = params,
+    # The underlying Token2 class appears to *require* an endpoint and an app,
+    # though it doesn't use them for anything in this case.
+    endpoint = httr::oauth_endpoints("google"),
+    app = httr::oauth_app("google", key = "KEY", secret = "SECRET")
+  )
+  token$refresh()
+  if (is.null(token$credentials$access_token) ||
+      !nzchar(token$credentials$access_token)) {
+    NULL
+  } else {
+    token
+  }
+}
+
 # Grab project number from Google Compute Engine metadata.  See https://cloud.google.com/compute/docs/storing-retrieving-metadata for details.
 if(gargle:::detect_gce()){
   
   print('Loading project information from GCE.')
+  
+  token <- credentials_gce2(scopes = c('https://www.googleapis.com/auth/pubsub'), service_account = 'default')
+  print(gargle::token_email(token))
+  
+  # Test pubsub API call with credentials_gce2
+  endpt <- glue::glue('v1/projects/{project_number}/topics')
+  
+  req <- gargle::request_build(method = 'GET', path = endpt, base_url = 'https://pubsub.googleapis.com', token = token)
+  
+  res <- gargle::request_make(req)
+  
+  print(res)
+  print(httr::content(res))
   
   require(dplyr)
   source('GCP.R')
