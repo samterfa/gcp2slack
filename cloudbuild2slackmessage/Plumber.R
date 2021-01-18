@@ -44,6 +44,8 @@ if(gargle:::detect_gce()){
   
   print('Loading project information from GCE.')
   
+  project_number <- Sys.getenv('gcp_project_number')
+  
   token <- credentials_gce2(scopes = c('https://www.googleapis.com/auth/pubsub'), service_account = 'default')
   print(gargle::token_email(token))
   
