@@ -2,7 +2,7 @@
 # Fix for gargle preventing other Google Cloud scopes for use in credentials_gce.
 credentials_gce2 <- function(scopes = "https://www.googleapis.com/auth/cloud-platform",
                              service_account = "default", ...) {
-  ui_line("trying credentials_gce()")
+  gargle:::ui_line("trying credentials_gce()")
   if (!gargle:::detect_gce() || is.null(scopes)) {
     return(NULL)
   }
