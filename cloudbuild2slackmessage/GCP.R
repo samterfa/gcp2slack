@@ -43,3 +43,35 @@ preloadSecret <- function(secret, jsonNamesToEnvVars = F, localCredentialsJSON =
     eval(parse(text = glue::glue('Sys.setenv({secret} = "{secret_val}")')))
   }
 }
+
+# Fix for gargle preventing other Google Cloud scopes for use in credentials_gce.
+credentials_gce2 <- function(scopes = "https://www.googleapis.com/auth/cloud-platform",
+                             service_account = "default", ...) {
+  gargle:::ui_line("trying credentials_gce()")
+  if (!gargle:::detect_gce() || is.null(scopes)) {
+    return(NULL)
+  }
+  
+  gce_token <- gargle:::fetch_access_token(scopes, service_account = service_account)
+  
+  params <- list(
+    as_header = TRUE,
+    scope = scopes,
+    service_account = service_account
+  )
+  token <- gargle:::GceToken$new(
+    credentials = gce_token$access_token,
+    params = params,
+    # The underlying Token2 class appears to *require* an endpoint and an app,
+    # though it doesn't use them for anything in this case.
+    endpoint = httr::oauth_endpoints("google"),
+    app = httr::oauth_app("google", key = "KEY", secret = "SECRET")
+  )
+  token$refresh()
+  if (is.null(token$credentials$access_token) ||
+      !nzchar(token$credentials$access_token)) {
+    NULL
+  } else {
+    token
+  }
+}
