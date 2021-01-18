@@ -45,7 +45,7 @@ function(req, res, ...){
   logUrl <- buildDetails$logUrl
   tags <- buildDetails$tags
   
-  if(stats == 'SUCCESS'){
+  if(status == 'SUCCESS'){
     startTime <- buildDetails$timing$BUILD$startTime %>% lubridate::as_datetime()
     endTime <- buildDetails$timing$BUILD$endTime %>% lubridate::as_datetime()
   }
